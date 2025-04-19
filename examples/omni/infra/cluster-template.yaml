@@ -9,6 +9,8 @@ features:
 patches:
   - name: cni
     file: patches/cni.yaml
+  - name: mayastor-admission
+    file: patches/mayastor-admission.yaml
 ---
 kind: ControlPlane
 machineClass:
@@ -19,13 +21,18 @@ patches:
     file: patches/cilium.yaml
   - name: argocd
     file: patches/argocd.yaml
-  - name: monitoring
-    file: patches/monitoring.yaml
+  # - name: monitoring
+  #   file: patches/monitoring.yaml
   - name: control-plane
     file: patches/controlplane.yaml
+  - name: mayastor
+    file: patches/mayastor.yaml
 ---
 kind: Workers
 name: workers
 machineClass:
   name: everstake-workers
   size: unlimited
+patches:
+  - name: mayastor
+    file: patches/mayastor.yaml
