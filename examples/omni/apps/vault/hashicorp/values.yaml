@@ -1,0 +1,88 @@
+global:
+  enabled: true
+  tlsDisable: true
+injector:
+  enabled: true
+  replicas: 1
+  agentImage:
+    repository: "hashicorp/vault"
+  resources:
+    requests:
+      memory: 50Mi
+      cpu: 50m
+    limits:
+      memory: 128Mi
+      cpu: 150m
+  affinity: |
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: {{ template "vault.name" . }}-agent-injector
+              app.kubernetes.io/instance: "{{ .Release.Name }}"
+              component: webhook
+          topologyKey: kubernetes.io/hostname
+server:
+  enabled: true
+  logging: info
+  image:
+    repository: "hashicorp/vault"
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 250m
+    limits:
+      memory: 512Mi
+      cpu: 500m
+  standalone:
+      enabled: false
+  service:
+    enabled: true
+    active:
+      enabled: true
+      annotations:
+        omni-kube-service-exposer.sidero.dev/port: "8203"
+        omni-kube-service-exposer.sidero.dev/label: Vault
+  affinity: |
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: {{ template "vault.name" . }}
+              app.kubernetes.io/instance: "{{ .Release.Name }}"
+              component: server
+          topologyKey: kubernetes.io/hostname
+  extraLabels: {}
+  ha:
+    enabled: true
+    replicas: 3
+    raft:
+      enabled: true
+      setNodeId: true
+      config: |
+        ui = true
+        listener "tcp" {
+            tls_disable = 1
+            address = "[::]:8200"
+            cluster_address = "[::]:8201"
+        }
+        storage "raft" {
+            path = "/vault/data"
+        }
+        disable_mlock = true
+        service_registration "kubernetes" {}
+
+    disruptionBudget:
+      enabled: true
+      maxUnavailable: 1
+
+  dataStorage:
+    enabled: true
+    size: 2Gi
+    mountPath: "/vault/data"
+  ingress:
+    enabled: false
+
+ui:
+  enabled: false

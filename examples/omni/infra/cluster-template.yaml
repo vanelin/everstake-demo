@@ -13,6 +13,8 @@ patches:
     file: patches/mayastor-admission.yaml
   - name: metrics-server
     file: patches/metrics-server.yaml
+  - name: kubespan
+    file: patches/kubespan.yaml
 ---
 kind: ControlPlane
 machineClass:
@@ -29,6 +31,8 @@ patches:
     file: patches/controlplane.yaml
   - name: mayastor
     file: patches/mayastor.yaml
+  - name: kubelet-cert-rotation
+    file: patches/kubelet-cert-rotation.yaml
 ---
 kind: Workers
 name: workers
@@ -38,3 +42,5 @@ machineClass:
 patches:
   - name: mayastor
     file: patches/mayastor.yaml
+  - name: kubelet-cert-rotation
+    file: patches/kubelet-cert-rotation.yaml
