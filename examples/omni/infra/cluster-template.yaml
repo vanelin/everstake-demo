@@ -11,6 +11,8 @@ patches:
     file: patches/cni.yaml
   - name: mayastor-admission
     file: patches/mayastor-admission.yaml
+  - name: metrics-server
+    file: patches/metrics-server.yaml
 ---
 kind: ControlPlane
 machineClass:
