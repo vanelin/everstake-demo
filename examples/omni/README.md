@@ -5,6 +5,7 @@ It deploys a Talos Kubernetes cluster using Omni, with the following tooling:
 * Cilium for CNI & Hubble UI for observability
 * ArgoCD for application management
 * Prometheus & Grafana for monitoring
+* Openebs for storage
 
 ## Usage
 

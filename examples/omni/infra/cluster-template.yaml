@@ -21,8 +21,8 @@ patches:
     file: patches/cilium.yaml
   - name: argocd
     file: patches/argocd.yaml
-  # - name: monitoring
-  #   file: patches/monitoring.yaml
+  - name: monitoring
+    file: patches/monitoring.yaml
   - name: control-plane
     file: patches/controlplane.yaml
   - name: mayastor
