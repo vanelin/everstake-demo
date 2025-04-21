@@ -39,7 +39,7 @@ flowchart TD
     %% AWS Cloud section
     subgraph aws["AWS Cloud
     (us-east-1)"]
-        subgraph controlplane["+ Control-Plane ASG"]
+        subgraph controlplane["+Control-Plane ASG"]
             master1["master-1 (EC2 AZ-a)
             • kube-api-server
             • Vault HA (quorum)"]
@@ -50,13 +50,12 @@ flowchart TD
             • kube-api-server
             • Vault HA (quorum)"]
         end
-        aws_api["K8s API / etcd traffic (KubeSpan)"]
     end
     
     %% Bare-metal section
     subgraph baremetal["Bare-Metal DC
     (On-prem / Colo rack)"]
-        subgraph workers["+ Worker Pool"]
+        subgraph workers["+Worker Pool"]
             worker1["worker-1 (Talos ISO)
             • Solana-node pod"]
             worker2["worker-2 (Talos ISO)
